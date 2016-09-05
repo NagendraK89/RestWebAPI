@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RestFullWebAPIDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="RestFullWebAPIDataModelStoreContainer">
+          <EntitySet Name="Products" EntityType="RestFullWebAPIDataModel.Store.Products" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tokens" EntityType="RestFullWebAPIDataModel.Store.Tokens" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="RestFullWebAPIDataModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Tokens__UserId__1920BF5C" Association="RestFullWebAPIDataModel.Store.FK__Tokens__UserId__1920BF5C">
+            <End Role="User" EntitySet="User" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tokens_Tokens" Association="RestFullWebAPIDataModel.Store.FK_Tokens_Tokens">
+            <End Role="Tokens" EntitySet="Tokens" />
+            <End Role="Tokens1" EntitySet="Tokens" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Productname" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tokens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="AuthToken" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="IssuedOn" Type="datetime" Nullable="false" />
+          <Property Name="ExpiresOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Tokens__UserId__1920BF5C">
+          <End Role="User" Type="RestFullWebAPIDataModel.Store.User" Multiplicity="1" />
+          <End Role="Tokens" Type="RestFullWebAPIDataModel.Store.Tokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tokens_Tokens">
+          <End Role="Tokens" Type="RestFullWebAPIDataModel.Store.Tokens" Multiplicity="1" />
+          <End Role="Tokens1" Type="RestFullWebAPIDataModel.Store.Tokens" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Tokens">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tokens1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RestFullWebAPIDataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RestFullWebAPIDbEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="RestFullWebAPIDataModel.Product" />
+          <EntitySet Name="Tokens" EntityType="RestFullWebAPIDataModel.Token" />
+          <EntitySet Name="Users" EntityType="RestFullWebAPIDataModel.User" />
+          <AssociationSet Name="FK__Tokens__UserId__1920BF5C" Association="RestFullWebAPIDataModel.FK__Tokens__UserId__1920BF5C">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tokens_Tokens" Association="RestFullWebAPIDataModel.FK_Tokens_Tokens">
+            <End Role="Tokens" EntitySet="Tokens" />
+            <End Role="Tokens1" EntitySet="Tokens" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Productname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="AuthToken" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="IssuedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiresOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="RestFullWebAPIDataModel.FK__Tokens__UserId__1920BF5C" FromRole="Tokens" ToRole="User" />
+          <NavigationProperty Name="Tokens1" Relationship="RestFullWebAPIDataModel.FK_Tokens_Tokens" FromRole="Tokens" ToRole="Tokens1" />
+          <NavigationProperty Name="Token1" Relationship="RestFullWebAPIDataModel.FK_Tokens_Tokens" FromRole="Tokens1" ToRole="Tokens" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tokens" Relationship="RestFullWebAPIDataModel.FK__Tokens__UserId__1920BF5C" FromRole="User" ToRole="Tokens" />
+        </EntityType>
+        <Association Name="FK__Tokens__UserId__1920BF5C">
+          <End Role="User" Type="RestFullWebAPIDataModel.User" Multiplicity="1" />
+          <End Role="Tokens" Type="RestFullWebAPIDataModel.Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tokens_Tokens">
+          <End Role="Tokens" Type="RestFullWebAPIDataModel.Token" Multiplicity="1" />
+          <End Role="Tokens1" Type="RestFullWebAPIDataModel.Token" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Tokens">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tokens1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RestFullWebAPIDataModelStoreContainer" CdmEntityContainer="RestFullWebAPIDbEntities">
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="RestFullWebAPIDataModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Productname" ColumnName="Productname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="RestFullWebAPIDataModel.Token">
+              <MappingFragment StoreEntitySet="Tokens">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RestFullWebAPIDataModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
